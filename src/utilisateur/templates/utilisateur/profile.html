@@ -1,0 +1,64 @@
+{% extends 'base_public.html' %}
+{% block titre_page %}Comtpte de {{ user }}{% endblock %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body_class %}bg-dark{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="row py-5">
+            <div class="col-xl-5 py-4">
+                <!-- Profile picture card-->
+                <div class="card h-100">
+                    <div class="card-header">Avatar</div>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                        <img class="img-thumbnail rounded-circle mb-2" src="{{ user.profile.image.url }}" alt="">
+                        <!-- Profile picture help block-->
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 2 MB</div>
+                        <!-- Profile picture upload button-->
+                        {{ p_form.image|as_crispy_field }}
+                        <button class="btn btn-primary" type="submit">Changer</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-7 py-4">
+                <!-- Account details card-->
+                <div class="card mb-4 h-100">
+                    <div class="card-header">Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                          <div class="col-md col-sm-12">
+                            {{ u_form.username|as_crispy_field }}
+                          </div>
+                          <div class="col-md col-sm-12">
+                            {{ u_form.email|as_crispy_field }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md col-sm-12">
+                            {{ u_form.first_name|as_crispy_field }}
+                          </div>
+                          <div class="col-md col-sm-12">
+                            {{ u_form.last_name|as_crispy_field }}
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                               {{ p_form.role|as_crispy_field }} 
+                            </div>
+                        </div>
+                        <button class="btn btn-primary float-right" type="submit">Changer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block jsSupp %}
+
+{% endblock %}
+

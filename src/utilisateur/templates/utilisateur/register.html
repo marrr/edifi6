@@ -1,0 +1,48 @@
+{% extends 'base_public.html' %}
+{% load crispy_forms_tags %}
+{% block titre_page %}S'enregistrer{% endblock %}
+{% block entete %}
+
+{% endblock %}
+{% block contenu %}
+<div class="container-fluid py-10">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="shadow-lg card bg-light mx-auto">
+                <div class="card-header">Création d'un nouvel utilisateur</div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                    <p class="card-text">
+                        <div class="row">
+                            <div class="col">
+                                {{ form.username|as_crispy_field }}
+                            </div>
+                            <div class="col">
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form.password1|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form.password2|as_crispy_field }}
+                            </div>
+                        </div>                        
+                    </p>
+                    <button type="submit" class="btn btn-primary">S'enregistrer</button>
+                    </div>
+                </form>
+                <div class="card-footer text-muted text-right">
+                    <small class="text-muted">
+                    Déjà un compte ? <a class="ml-2" href="{% url 'login' %}">Se connecter</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

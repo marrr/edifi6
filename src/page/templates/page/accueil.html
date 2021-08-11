@@ -1,0 +1,150 @@
+{% extends 'base_public.html' %}
+{% load static %}
+
+{% block titre_page %}AEC Data Science{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-dark bg-img-cover overlay overlay-75" style="background-image: url('https://source.unsplash.com/WvusC5M-TM8/1500x900');height: 100vh;">
+    <div class="page-header-content py-10">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10 text-center">
+                    <div data-aos="fade-up" class="aos-init aos-animate">
+                        <h1 class="page-header-title">AEC Data Science &<br> Comptabilité énergétique</h1>
+                        <h3 class="text-white">Les sciences de données au service de la comptabilité énergétique</h3>
+                    </div>
+                    <div class="text-bolder mt-5" data-aos="flip-left" data-aos-duration="2000"><a href="{% url 'page:accueil' %}#apropos"><i class="fas fa-chevron-circle-down fa-6x text-white"></i></a></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+
+{% block contenu %}
+<section class="bg-light py-10" id="apropos">
+	<div class="container-fluid">
+	    <div class="row justify-content-center pt-5">
+	        <div class="col-lg-6">
+	            <div class="text-center">
+	                <h1 class="text-uppercase-expanded text-primary mb-2">Le projet edifi6</h1>
+	                <h2 class="mb-5">Un projet en quatre dimensions</h2>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row">
+	        <div class="col-lg-3 col-md-6 mb-5 aos-init aos-animate" data-aos="fade-up">
+	            <a class="card text-center text-decoration-none h-100 lift" href="{% url 'page:accueil' %}#modele"><div class="card-body py-5">
+	                    <div class="icon-stack icon-stack-lg bg-green-soft text-green mb-4"><i class="fas fa-project-diagram"></i></div>
+	                    <h5>Modélisation</h5>
+	                    <p class="card-text text-left small">Elaboration d'un modèle qui rende les données Interopérables, Pérennes et Accessibles.</p>
+	                </div></a>
+	        </div>
+	        <div class="col-lg-3 col-md-6 mb-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+	            <a class="card text-center text-decoration-none h-100 lift" href="{% url 'page:accueil' %}#lapp"><div class="card-body py-5">
+	                    <div class="icon-stack icon-stack-lg bg-red-soft text-red mb-4"><i class="fas fa-code"></i></div>
+	                    <h5>Application</h5>
+	                    <p class="card-text text-left small">Application du modèle, construite sur mesure et open source.</p>
+	                </div></a>
+	        </div>
+	        <div class="col-lg-3 col-md-6 mb-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
+	            <a class="card text-center text-decoration-none h-100 lift" href="{% url 'page:accueil' %}#docu"><div class="card-body py-5">
+	                    <div class="icon-stack icon-stack-lg bg-secondary-soft text-secondary mb-4"><i class="fas fa-book"></i></div>
+	                    <h5>Documentation</h5>
+	                    <p class="card-text text-left small">Le projet est documenté : définitions, schémas, spécifications, etc.</p>
+	                </div></a>
+	        </div>
+	        <div class="col-lg-3 col-md-6 mb-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+	            <a class="card text-center text-decoration-none h-100 lift" href="{% url 'page:accueil' %}#blog"><div class="card-body py-5">
+	                    <div class="icon-stack icon-stack-lg bg-orange-soft text-orange mb-4"><i class="fas fa-bullhorn"></i></div>
+	                    <h5>Plaidoyer</h5>
+	                    <p class="card-text text-left small">Les données au coeur de l'indispensable transition climatique.</p>
+	                </div></a>
+	        </div>
+	    </div>
+	</div>
+</section>
+
+<section class="bg-white py-5" id="modele">
+	<div class="container">
+		<div class="row align-items-center justify-content-center pt-5">
+			<div class="col-md-9 col-lg-6 aos-init aos-animate" data-aos="slide-right">
+	            <div class="mb-4">
+	                <div class="rounded"><img class="img-fluid" src="{% static 'img/data processing-rafiki.png' %}"></div>
+	            </div>				
+			</div>
+			<div class="col-lg-6">
+				<div class="badge badge-success-soft text-success badge-marketing badge-pill mb-3">Modélisation</div>
+				<h1 class="page-header-title">Un modèle de données original</h1>
+                <p class="page-header-text mb-5">Ce modèle est basé sur des normes législatives et industrielles, sur des sources authentiques et, surtout, sur les principes du BIM.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="bg-light py-10" id="lapp">
+	<div class="container">
+	    <div class="row align-items-center justify-content-center pt-5">
+	        <div class="col-lg-6">
+	            <div class="badge badge-red-soft text-red badge-marketing badge-pill mb-3">Application</div>
+	            <div class="mb-5">
+	                <h2>edifi6, un outil modulable</h2>
+	                <p class="lead">L'application - encore en phase de prototype - est une mise en oeuvre de notre Modèle dans la comptabilité énergétique des bâtiments.</p>
+	            </div>
+	            <div class="row">
+	                <div class="col-md-6 mb-4">
+	                    <h6>Sur mesure</h6>
+	                    <p class="mb-2 small">L'outil s'adapte, et non pas l'utilisateur : edifi6 est écrit sur mesure, en fonction des besoins et réalités.</p>
+	                </div>
+	                <div class="col-md-6 mb-4">
+	                    <h6>Open source</h6>
+	                    <p class="mb-2 small mb-0">Le logiciel est open source, il bénéficie donc des avantages qui y sont liés (fiabilité, sécurité, disponibilité,...).</p>
+	                    <a class="small text-arrow-icon" target="_blank" href="https://www.bcg.com/publications/2021/open-source-software-strategy-benefits">En savoir plus<i class="fas fa-arrow-right"></i></a>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-9 col-lg-6 aos-init aos-animate" data-aos="slide-left">
+	            <div class="mb-4">
+	                <div class="content-skewed content-skewed-left"><img class="img-fluid content-skewed-item shadow-lg rounded-lg" src="{% static 'img/screenshot-demo-app.png' %}"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</section>
+
+<section class="bg-white py-5" id="docu">
+	<div class="container">
+		<div class="row align-items-center justify-content-center pt-5">
+			<div class="col-md-9 col-lg-6 aos-init aos-animate" data-aos="slide-right">
+	            <div class="mb-4">
+	                <div class="rounded"><img class="img-fluid" src="{% static 'img/documentation.png' %}"></div>
+	            </div>	
+			</div>
+			<div class="col-lg-6">
+				<div class="badge badge-secondary-soft text-secondary badge-marketing badge-pill mb-3">Documentation</div>
+				<h1 class="page-header-title">Un projet documenté</h1>
+                <p class="page-header-text mb-5">Les définitions utilisées sont reprises dans le glossaire. Le code, les schémas et autres documents relatifs sont disponibles sur Github.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="bg-light py-10" id="blog">
+	<div class="container">
+		<div class="row align-items-center justify-content-center pt-5">
+			<div class="col-lg-6">
+				<div class="badge badge-orange-soft text-orange badge-marketing badge-pill mb-3">Plaidoyer</div>
+				<h1 class="page-header-title">Convaincre. Encore. Toujours.</h1>
+				<p class="page-header-text mb-5">Les enjeux sont énormes, les techniques relativement récentes et les résistances nombreuses : il faut, sans relâche, convaincre que les changements sont nécessaires et, surtout, qu'ils sont accessibles.</p>
+			</div>
+			<div class="col-md-9 col-lg-6 aos-init aos-animate" data-aos="slide-left">
+	            <div class="mb-4">
+	                <div class="rounded"><img class="img-fluid" src="{% static 'img/plaidoyer.png' %}"></div>
+	            </div>
+			</div>
+		</div>
+	</div>	
+</section>
+{% endblock %}

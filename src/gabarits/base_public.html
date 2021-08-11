@@ -1,0 +1,29 @@
+{% include 'easter_egg.txt' %}
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		{% include 'meta.html' %}
+		<title>{% block titre_page %}{% endblock %}</title>
+		{% include 'style_public.html' %}
+		{% block style_page %}{% endblock %}
+	{{ form.media }}
+	</head>
+	<body class="{% block body_class %}{% endblock %}">
+		<div id="layoutDefault">
+			<div id="layoutDefault_content">
+				<main>
+					<!-- Navbar-->
+					{% include 'navbar_public.html' %}
+					<!-- Page Header-->
+					{% block entete %}{% endblock %}		   
+					<!-- Contenu-->
+					{% block contenu %}{% endblock %}
+				</main>
+			</div>
+			<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-arrow-up fa-lg"></i></button>
+			{% include 'footer_public.html' %}
+		</div> 
+		{% include 'js_public.html' %}
+		{% block js_page %}{% endblock %}
+	</body>
+</html>

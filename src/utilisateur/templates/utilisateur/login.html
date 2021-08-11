@@ -1,0 +1,27 @@
+{% extends 'base_public.html' %}
+{% load crispy_forms_tags %}
+{% block titre_page %}Se connecter{% endblock %}
+{% block body_class %}bg-dark{% endblock %}
+{% block contenu %}
+<div class="container pt-10">
+  <div class="row">
+    <div class="col-lg-6 mx-auto">
+      <div class="shadow card bg-light my-5">
+        <div class="card-header text-center">
+          <h3 class="font-weight-bolder">Se connecter</h3>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+            <p class="card-text">{{ form|crispy }}</p>
+            <button type="submit" class="btn btn-primary">Connexion</button>
+          </div>
+          <div class="card-footer d-flex justify-content-end">
+              <div class="small">Pas de compte ? <a href="{% url 'page:accueil' %}#contact">Contact</a></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>  
+{% endblock %}
