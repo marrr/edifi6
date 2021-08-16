@@ -1,0 +1,56 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Mise à jour
+{% else %}
+	Ajout
+{% endif %} d'un batiment
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:batiment-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+	  <div class="row">
+	    <div class="col-lg-4 col-md-12">
+	      {{ form.parcel|as_crispy_field }}
+	    </div>
+	    <div class="col-lg-4 col-md-12">
+	      {{ form.id_regional|as_crispy_field }}
+	    </div>
+	    <div class="col-lg-4 col-md-12">
+	      {{ form.composition|as_crispy_field }}
+	    </div>
+	  </div>
+	  <p>
+	    <em>
+	      <a href="{% url 'inventaire:nouvelle-parcelle' %}">
+	        Si un terrain n'est pas répertorié, vous pouvez le créer en cliquant ici.
+	      </a>
+	    </em>
+	  </p>
+	  <div class="row">
+	    <div class="col-lg-6">
+	      {{ form.nom|as_crispy_field }}
+	    </div>
+	    <div class="col-lg-6">
+	      {{ form.desc|as_crispy_field }}
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="col-lg-4 col-md-12">
+	      {{ form.nbr_niveau|as_crispy_field }}
+	    </div>
+	    <div class="col-lg-4 col-md-12">
+	      {{ form.annee_cstr|as_crispy_field }}
+	    </div>
+	    <div class="col-lg-4 col-md-12">
+	      {{ form.shape_area|as_crispy_field }}
+	    </div>
+	  </div>
+	</div>
+</div>
+{% endblock %}

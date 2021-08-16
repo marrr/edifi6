@@ -1,0 +1,51 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-xs-8 mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="far fa-plus-square"></i></div>
+                        {% block header_ajout_titre %}{% endblock %}
+                    </h1>
+                </div>
+                <div class="col-xs-4 mb-3 text-right">
+                    <a class="btn btn-sm btn-light text-primary" href="{% block url-btn-retour %}{% endblock %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenu %}
+<div class="container">
+	<div class="row">
+		<div class="col">
+		<div class="shadow card bg-light mb-3 mx-auto">
+			<form method="POST" enctype="multipart/form-data">
+			  {% csrf_token %}
+			  {% block form_itself %}{% endblock %}
+			  <div class="card-footer text-muted text-right">
+			    <button type="submit"class="btn btn-success">
+			      {% if '/modifications/' in request.path %}
+			        Mettre à jour
+			      {% else %}
+			        Créer
+			      {% endif %}
+			    </button>
+			    <button onclick="window.history.back();" class="btn btn-secondary">Annuler</button>
+			  </div>
+			</form>
+		</div>			
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block jsSupp %}
+{% endblock %}

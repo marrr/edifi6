@@ -1,0 +1,38 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}Ajout d'un Agent{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:agent-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+		<div class="row">
+			<div class="col-lg-2 col-md-12">
+				{{ form.genre|as_crispy_field }}
+			</div>
+			<div class="col-lg-5 col-md-12">
+				{{ form.prenom|as_crispy_field }}
+			</div>
+			<div class="col-lg-5 col-md-12">
+				{{ form.nom|as_crispy_field }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-12">
+				{{ form.phone|as_crispy_field }}
+			</div>
+			<div class="col-lg-3 col-md-12">
+				{{ form.email|as_crispy_field }}
+			</div>
+			<div class="col-lg-3 col-md-12">
+				{{ form.homepage|as_crispy_field }}
+			</div>
+			<div class="col-lg-3 col-md-12">
+				{{ form.gsm|as_crispy_field }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

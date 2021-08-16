@@ -1,0 +1,51 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-info"></i></div>
+                        {{ object }}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                	<a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:parcelle-modif' slug=object.slug %}">Modifier</a>
+                    <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:org-list' %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">{{ object }}</div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Nom</dt>
+            <dd class="col-sm-9">{{ object.nom }}</dd>
+            <dt class="col-sm-3">Numéro d'entreprise</dt>
+            <dd class="col-sm-9">
+              <a href="https://kbopub.economie.fgov.be/kbopub/toonondernemingps.html?ondernemingsnummer={{ object.bce }}" target="_blank">{{ object.bce }}</a> <i class="fas fa-external-link-alt"></i>
+            </dd>
+            <dt class="col-sm-3">Occupation(s)</dt>
+            <dd class="col-sm-9">
+              <ul class="list-unstyled  ">
+                {% for occupant in object.occupants.all %}
+                <li><a href="{{ occupant.site.get_absolute_url }}">{{ occupant }}</a></li>
+                {% endfor %}
+              </ul>
+            </dd>
+          </dl>        	
+        </div>
+    </div>
+</div>
+{% endblock %}

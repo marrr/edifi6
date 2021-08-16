@@ -1,0 +1,28 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}Occupation d'un site{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:org-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+  <div class="card-text">
+    {{ form|crispy }}
+    <p>
+      <em>
+        <a href="{% url 'inventaire:nouvelle-organisation' %}">
+          Si une Organisation n'est pas répertoriée, vous pouvez la créer en cliquant ici.
+        </a>
+      </em>
+    </p>
+    <p>
+      <em>
+        <a href="{% url 'inventaire:nouveau-site' %}">
+          Si un Site n'est pas répertorié, vous pouvez le créer en cliquant ici.
+        </a>
+      </em>
+    </p>
+  </div>
+</div>
+{% endblock %}

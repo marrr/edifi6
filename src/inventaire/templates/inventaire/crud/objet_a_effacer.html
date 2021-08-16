@@ -1,0 +1,29 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titre_page %}/!\ Heyyy /!\{% endblock %}
+
+{% block contenu %}
+<div class="container pt-10">
+	<div class="row justify-content-between align-items-center">
+	  <div class="col">
+	    <img src="{% static 'img/warning-delete.png' %}" class="img-fluid">
+	  </div>
+	  <div class="col">
+	    <p class="lead">Vous vous apprêtez à effacer un objet de la base de données.</p>
+	    <p><strong>{{ object }}</strong></p>
+	    <p class="lead">C'est une mauvaise idée.</p>
+	    <p>Cette action est irréversible...vous pouvez encore faire marche
+	      arrière avec le bouton ci-dessous.<br>Si vous savez ce que vous faites, confirmez.<br>Mais il vaut mieux pas.</p>
+	      <form method="POST">
+	          {% csrf_token %}
+	          <div class="form-group text-center">
+	            <button type="submit" class="btn btn-danger" value="Confirm">Confirmer</button>
+	            <button onclick="window.history.back();" class="btn btn-success">Annuler</button>
+	          </div>
+	      </form>
+	  </div>
+	</div>
+</div>
+{% endblock %}

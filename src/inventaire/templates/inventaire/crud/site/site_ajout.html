@@ -1,0 +1,60 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Mise à jour
+{% else %}
+	Ajout
+{% endif %} d'un site
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:site-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+		<div class="row">
+			<div class="col-lg-4 col-md-12">
+				{{ form.service|as_crispy_field }}
+			</div>
+			<div class="col-lg-4 col-md-12">
+				{{ form.composition|as_crispy_field }}
+			</div>
+			<div class="col-lg-4 col-md-12">
+				{{ form.edific|as_crispy_field }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-md-12">
+				{{ form.voirie|as_crispy_field }}
+			</div>
+			<div class="col-lg-2 col-md-12">
+				{{ form.numero|as_crispy_field }}
+			</div>
+			<div class="col-lg-2 col-md-12">
+				{{ form.boite|as_crispy_field }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-12">
+				{{ form.cp|as_crispy_field }}
+			</div>
+			<div class="col-lg-6 col-md-12">
+				{{ form.localite|as_crispy_field }}
+			</div>
+			<div class="col-lg-3 col-md-12">
+				{{ form.region|as_crispy_field }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-12">
+				{{ form.nom|as_crispy_field }}
+			</div>
+			<div class="col-lg-6 col-md-12">
+				{{ form.tags|as_crispy_field }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

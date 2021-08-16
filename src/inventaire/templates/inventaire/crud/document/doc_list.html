@@ -1,0 +1,32 @@
+{% extends 'base_dash_listing.html' %}
+{% load humanize %}
+
+{% block titre_page %}Liste des documents{% endblock %}
+
+{% block header_list_titre %}{{ object_list|length }} documents répertoriés{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:nouveau-doc' %}{% endblock %}
+
+{% block entete_tbl %}
+  <thead>
+    <tr>
+      <th data-field="nom" data-sortable="true">Site concerné</th>
+      <th data-field="desc" data-sortable="true">Chemin</th>
+      <th data-field="qui" data-sortable="true">Ajouté par</th>
+      <th data-field="quand" data-sortable="true">En date du</th>
+    </tr>
+  </thead>
+{% endblock %}
+
+{% block corps_tbl %}
+  <tbody>
+        {% for p in object_list %}
+          <tr>
+            <td><a href="{{ p.site.get_absolute_url }}" target="_blank">{{ p.site }}</a></td>
+            <td><a href="{{ p.doc.url }}">{{ p.doc }}</a></td>
+            <td>{{ p.created_by }}</td>
+            <td>{{ p.created|date:"d F Y" }}</td>
+          </tr>
+        {% endfor %}
+  </tbody>
+{% endblock %} 

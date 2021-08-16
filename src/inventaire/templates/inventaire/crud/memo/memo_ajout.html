@@ -1,0 +1,26 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}Ajout d'un Memo{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:memo-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+		<div class="row">
+			<div class="col-lg-6 col-md-12">
+			  {{ form.site|as_crispy_field }}
+			</div>
+			<div class="col-lg-6 col-md-12">
+			  {{ form.sujet|as_crispy_field }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+			  {{ form.contenu|as_crispy_field }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

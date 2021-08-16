@@ -1,0 +1,44 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-info"></i></div>
+                        Mémo daté de {{ object.created|date }}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                    <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:memo-list' %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8 bg-white py-5">
+                <h1><a href="{ url 'object.site.get_absolute_url' }">{{ object.site }}</a></h1>
+                <p class="text-right">Sujet du memo : {{ object.get_sujet_display }}<br>Auteur : {{ object.created_by }}</p>
+                <hr>
+                <div class="mb-5">
+                    {{ object.contenu|safe }}
+                    <hr class="my-5" />
+                    <div class="text-center"><a class="btn btn-primary-soft" href="{% url 'inventaire:memo-list' %}">Retour aux autres memos</a></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

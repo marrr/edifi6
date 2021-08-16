@@ -1,0 +1,45 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Mise à jour
+{% else %}
+	Ajout
+{% endif %} d'un terrain
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:parcelle-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+		<div class="row">
+			<div class="col-lg-6 col-md-12">
+			{{ form.site|as_crispy_field }}
+			</div>
+			<div class="col-lg-6 col-md-12">
+			{{ form.droit|as_crispy_field }}
+			</div>
+		</div>
+		<p>
+			<em>
+			<a href="{% url 'inventaire:nouveau-site' %}">
+			Si un site n'est pas répertorié, vous pouvez le créer en cliquant ici.
+			</a>
+			</em>
+		</p>
+		<div class="row">
+			<div class="col-lg-4 col-md-12">
+			{{ form.nature|as_crispy_field }}
+			</div>
+			<div class="col-lg-4 col-md-12">
+			{{ form.capakey|as_crispy_field }}
+			</div>
+			<div class="col-lg-4 col-md-12">
+			{{ form.patris|as_crispy_field }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

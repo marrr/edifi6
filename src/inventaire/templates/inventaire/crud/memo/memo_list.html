@@ -1,0 +1,38 @@
+{% extends 'base_dash_listing.html' %}
+{% load humanize %}
+
+{% block titre_page %}Liste des memos{% endblock %}
+
+{% block header_list_titre %}{{ object_list|length }} memos répertoriés{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:nouveau-memo' %}{% endblock %}
+
+{% block entete_tbl %}
+  <thead>
+    <tr>
+      <th data-field="ope" data-sortable="true"></th>
+      <th data-field="site" data-sortable="true">Site concerné</th>
+      <th data-field="subj" data-sortable="true">Elément concerné</th>
+      <th data-field="com" data-sortable="true">Memo (extrait)</th>
+      <th data-field="creation" data-sortable="true">Date Création</th>
+      <th data-field="user" data-sortable="true">Créé par</th>
+    </tr>
+  </thead>
+{% endblock %}
+
+{% block corps_tbl %}
+  <tbody>
+    {% for p in object_list %}
+      <tr>
+        <td class="text-center">
+          <a href="{{ p.get_absolute_url }}" ><i class="far fa-eye text-info" data-toggle="tooltip" title="Voir le détail" data-placement="bottom"></i></a>
+        </td>
+        <td>{{ p.site.nom }}</td>
+        <td>{{ p.get_sujet_display }}</td>
+        <td>{{ p.contenu|truncatechars:90|safe }}</td>
+        <td>{{ p.created|date:'d b. Y' }}</td>
+        <td>{{ p.created_by }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %} 

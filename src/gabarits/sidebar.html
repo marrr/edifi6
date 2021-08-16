@@ -1,0 +1,79 @@
+<nav class="sidenav shadow-right sidenav-dark">
+    <div class="sidenav-menu">
+        <div class="nav accordion" id="accordionSidenav">
+            <!-- * * Note: * * Visible only on and above the sm breakpoint-->
+            <div class="sidenav-menu-heading d-md-none text-red">Public</div>
+            <a class="nav-link d-lg-none" href="{% url 'journal:index' %}">
+                <div class="nav-link-icon"><i class="far fa-user-circle"></i></div>
+                Journal
+            </a>
+            <a class="nav-link d-lg-none" href="#">
+                <div class="nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                Glossaire
+            </a>
+            <a class="nav-link d-lg-none" href="mailto:marouan@protonmail.com?subject=Feedback Utilisateur"><div class="nav-link-icon"><i class="far fa-comment-dots"></i></div> Feedback</a>
+            <!-- Sidenav Menu Heading (Inventaire)-->
+            <div class="sidenav-menu-heading text-red">Inventaire</div>
+            <!-- Sidenav Accordion (Structure Spatiale)-->
+            <a class="nav-link" href="{% url 'inventaire:index' %}">
+                <div class="nav-link-icon"><i class="fas fa-columns"></i></div>
+                Tableau de bord
+            </a>
+            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseSpatiale" aria-expanded="false" aria-controls="collapseSpatiale">
+                <div class="nav-link-icon"><i class="far fa-map"></i></div>
+                Référencement
+                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseSpatiale" data-parent="#accordionSidenav">
+                <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavSpatiale">
+                    <a class="nav-link" href="{% url 'inventaire:site-list' %}">Sites</a>
+                    <a class="nav-link" href="{% url 'inventaire:parcelle-list' %}">Terrains</a>
+                    <a class="nav-link" href="{% url 'inventaire:batiment-list' %}">Constructions</a>
+
+                </nav>
+            </div>
+            <!-- Sidenav Accordion (Element)-->
+            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseElement" aria-expanded="false" aria-controls="collapseElement">
+                <div class="nav-link-icon"><i class="fab fa-buromobelexperte"></i></div>
+                Elements...
+                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseElement" data-parent="#accordionSidenav">
+                <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavElements">
+                    <a class="nav-link" href="#">...de Construction</a>
+                    <a class="nav-link" href="#">...de Distribution</a>
+                </nav>
+            </div>
+            <!-- Sidenav Accordion (Flux)-->
+            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseFlux" aria-expanded="false" aria-controls="collapseFlux">
+                <div class="nav-link-icon"><i class="fas fa-stream"></i></div>
+                Flux
+                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseFlux" data-parent="#accordionSidenav">
+                <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavFlux">
+                    <a class="nav-link" href="#">Energies</a>
+                    <a class="nav-link" href="#">Occupations</a>
+                </nav>
+            </div>                
+            <!-- Sidenav Heading (References)-->
+            <div class="sidenav-menu-heading text-red">References</div>
+            <a class="nav-link" href="{% url 'inventaire:annuaire' %}">
+                <div class="nav-link-icon"><i class="fas fa-book"></i></div>
+                Annuaire
+            </a>
+            <a class="nav-link" href="{% url 'glossaire:index' %}">
+                <div class="nav-link-icon"><i class="fas fa-language"></i></div>
+                Glossaire
+            </a>
+        </div>
+    </div>
+    <!-- Sidenav Footer-->
+    <div class="sidenav-footer">
+        <div class="sidenav-footer-content">
+            <div class="sidenav-footer-title">18-21 | db: aaron</div>
+            <div class="sidenav-footer-subtitle">Connecté en tant que : </div>
+            <div class="sidenav-footer-title">{{ user.username }}</div>
+        </div>
+    </div>
+</nav>

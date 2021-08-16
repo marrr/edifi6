@@ -1,0 +1,16 @@
+{% extends 'base_dash_listing.html' %}
+{% load humanize %}
+
+{% block titre_page %}Type de mesure de surface{% endblock %}
+
+{% block header_list_titre %}{{ object_list|length }} terrains répertoriés{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:nouveau-typedemesuredesurface' %}{% endblock %}
+
+{% block entete_tbl %}
+
+{% endblock %}
+
+{% block corps_tbl %}
+
+{% endblock %} 

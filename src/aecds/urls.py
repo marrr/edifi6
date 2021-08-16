@@ -10,6 +10,7 @@ urlpatterns = [
     path("", include('page.urls')),
     path("glossaire/", include('glossaire.urls')),
     path('journal/', include('journal.urls')),
+    path('inventaire/', include('inventaire.urls')),
 ]
 
 url_users = [

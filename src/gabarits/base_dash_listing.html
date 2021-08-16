@@ -1,0 +1,41 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-list-ul"></i></div>
+                        {% block header_list_titre %}{% endblock %}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                    <a class="btn btn-sm btn-light text-primary" href="{% block url-btn-ajouter %}{% endblock %}">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    {% block entete_tbl %}{% endblock %}
+                    {% block corps_tbl %}{% endblock %}                
+                </table>
+            </div>
+            {% include 'pagination.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block jsSupp %}
+
+{% endblock %}
+

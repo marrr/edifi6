@@ -1,0 +1,90 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-info"></i></div>
+                        {{ object }}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                	<a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:batiment-modif' slug=object.slug %}">Modifier</a>
+                    <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:batiment-list' %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">{{ object }}</div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Nom usuel</dt>
+            <dd class="col-sm-9">{{ object.nom }}</dd>
+
+            <dt class="col-sm-3">Site</dt>
+            <dd class="col-sm-9"><a href="{% url 'inventaire:site-details' slug=object.parcel.site.slug %}">{{ object.parcel.site }}</a></dd>
+
+            <dt class="col-sm-3">ID Regional</dt>
+            <dd class="col-sm-9">{{ object.id_regional }}</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">{{ object.desc }}</dd>
+
+            <dt class="col-sm-3">Complexité du bâtiment</dt>
+            <dd class="col-sm-9">{{ object.get_composition_display }}</dd>
+
+            <dt class="col-sm-3">Parcelle cadastrale</dt>
+            <dd class="col-sm-9">{{ object.parcel.capakey }}</dd>
+
+            <dt class="col-sm-3">Année de construction</dt>
+            <dd class="col-sm-9">{{ object.annee_cstr }}</dd>
+          </dl>
+            <hr>
+          <div class="row">
+            <div class="col">
+          <ul class="list-unstyled">
+            <li>Surface bâtie au sol: {{ object.shape_area|floatformat:"1" }} m²</li>
+            {% if niveaux %}
+            <li>Surface par niveaux:</li>
+              <ul>
+              {% for niv in niveaux %}
+                <li>
+                  Niveau {{ niv.nom }} :
+                  {% for mes in niv.niveaux.all %}
+                    {{ mes.valeur|floatformat:"0" }} m² [{{ mes.type }}]
+                  {% endfor %}
+                </li>
+              {% endfor %}
+                <li>Surface Totale : <strong>{{ somme_surface_niveaux|floatformat:"0" }} m²</strong></li>
+              </ul>
+            {% endif %}
+            {% if mes_bat %}
+            <li>Mesures du bâtiment:</li>
+              <ul>
+                {% for mes in mes_bat %}
+                <li>
+                  {{ mes.valeur|floatformat:"0" }} m² [{{ mes.type }}]
+                </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <a class="float-right" href="{% url 'inventaire:nouvelle-mesuredesurface' %}">Ajouter une mesure de surface</a>
+          </ul>              
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

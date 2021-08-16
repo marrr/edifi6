@@ -1,0 +1,81 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-info"></i></div>
+                        {{ object }}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                	<a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:parcelle-modif' slug=object.slug %}">Modifier</a>
+                    <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:parcelle-list' %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">Matrice cadastrale</div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-6 text-right text-red">Division cadastrale:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.division }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Section:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.section }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Radical:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.radical }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Bis:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.bis }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Exposant:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.exposant }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Puissance:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.puissance }}
+            </dd>
+          </dl>
+          <hr>
+          <dl class="row">
+            <dt class="col-sm-6 text-right text-red">Contenance Patris (m²):</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.patris }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Nature cadastrale:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.nature }}
+            </dd>
+            <dt class="col-sm-6 text-right text-red">Situation patrimoniale:</dt>
+            <dd class="col-sm-6 text-left">
+              {{ object.get_droit_display }}
+            </dd>
+          </dl>
+          <hr>
+          <dl class="row">
+            <dt class="col-sm-6 text-right text-red">Nombre de bâtiments</dt>
+            <dd class="col-sm-6 text-left">{{ object.constructions.all|length }}</dd>
+          </dl>        	
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}Ajout d'un Document{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:doc-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="row">
+		<div class="col-lg-6">
+			<p class="card-text">{{ form.site|as_crispy_field }}</p>
+		</div>
+		<div class="col-lg-6">
+			<p class="card-text">{{ form.doc|as_crispy_field }}</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

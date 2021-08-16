@@ -1,0 +1,63 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Mise à jour
+{% else %}
+	Ajout
+{% endif %} d'une superficie
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:batiment-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+	  <div class="row justify-content-center align-items-center">
+	    <div class="col">
+	      <h5>1. De quoi mesure-t-on la surface ?</h5>
+	    </div>
+	    <div class="col">
+	      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseBatiment" aria-expanded="false" aria-controls="collapseBatiment">
+	        Surface d'un bâtiment
+	      </button>
+	      <div class="collapse" id="collapseBatiment">
+	        {{ form.batiment|as_crispy_field }}
+	      </div>
+	    </div>
+	    <div class="col">
+	      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseNiveau" aria-expanded="false" aria-controls="collapseNiveau">
+	        Surface d'un niveau
+	      </button>
+	      <div class="collapse" id="collapseNiveau">
+	        {{ form.niveau|as_crispy_field }}
+	      </div>
+	    </div>
+	  </div>
+	  <div class="row justify-content-center align-items-center">
+	    <div class="col">
+	      <h5>2. De quel type de mesure de surface s'agit-il ?</h5>
+	    </div>
+	    <div class="col-8">
+	      {{ form.type|as_crispy_field }}
+	      <p>
+	        <em>
+	          <a href="#">
+	            Si un type de mesure de surface n'est pas répertorié, vous pouvez le créer en cliquant ici.
+	          </a>
+	        </em>
+	      </p>
+	    </div>
+	  </div>
+	  <div class="row justify-content-center align-items-center">
+	    <div class="col">
+	      <h5>3. Entrer la valeur</h5>
+	    </div>
+	    <div class="col-8">
+	      {{ form.valeur|as_crispy_field }}
+	    </div>
+	  </div>
+	</div>
+</div>
+{% endblock %}

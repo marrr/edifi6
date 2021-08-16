@@ -1,0 +1,457 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="card bg-gradient-primary-to-secondary">
+    <div class="card-body px-5 pt-5 pb-0">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-12">
+                <h1 class="text-white">{% if object.nom %}{{ object.nom }}{% else %}{{ object }}{% endif %}</h1>
+              <small class="text-white">
+                Créé par {{ site.created_by }} {{ site.created|naturaltime }} et
+                modifié par {{ site.modified_by }} {{ site.modified|naturaltime }}
+              </small>
+              <div class="py-3 float-right">
+                <a class="btn btn-sm btn-light text-primary mr-2" href="{% url 'inventaire:nouveau-site' %}">Ajouter</a>
+                <a class="btn btn-sm btn-light text-primary mr-2" href="{% url 'inventaire:site-modif' slug=site.slug %}">Modifier</a>
+                <a class="btn btn-sm btn-light text-primary mr-2" href="{% url 'inventaire:site-print' slug=site.slug %}">Imprimer</a>
+                <a class="btn btn-sm btn-light text-primary mr-2" href="{% url 'inventaire:site-list' %}">Revenir à la liste</a>
+                <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:site-delete' slug=site.slug %}">Supprimer</a>
+              </div>
+            </div>
+            <div class="col-lg-4"><div id="map" style="height:250px;"></div></div>
+        </div>
+        <ul class="nav nav-borders pt-3" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active text-white" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">
+              Infos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="terrain-tab" data-toggle="tab" href="#terrain" role="tab" aria-controls="terrain" aria-selected="true">
+              Terrains
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="cstr-tab" data-toggle="tab" href="#cstr" role="tab" aria-controls="cstr" aria-selected="true">
+              Constructions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="memo-tab" data-toggle="tab" href="#memo" role="tab" aria-controls="memo" aria-selected="true">
+              Memos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="foto-tab" data-toggle="tab" href="#foto" role="tab" aria-controls="foto" aria-selected="true">
+              Photos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="doc-tab" data-toggle="tab" href="#doc" role="tab" aria-controls="doc" aria-selected="true">
+              Documents
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="agent-tab" data-toggle="tab" href="#agent" role="tab" aria-controls="agent" aria-selected="true">
+              Agents
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="occ-tab" data-toggle="tab" href="#occ" role="tab" aria-controls="occ" aria-selected="true">
+              Occupants
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" id="nrj-tab" data-toggle="tab" href="#nrj" role="tab" aria-controls="nrj" aria-selected="true">
+              Energies
+            </a>
+          </li>
+        </ul>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenu %}
+<div class="container-fluid px-5 pt-2">
+  <div class="row">
+    <div class="col">
+      <div class="tab-content" id="myTabContent">
+        <!-- Onglet infos -->
+        <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+          <div class="row m-2">
+            <div class="col">
+              <dl class="row">
+                <dt class="col-sm-3">Adresse du site</dt>
+                <dd class="col-sm-9">
+                    {{ site.voirie }}, {{ site.numero }}<br>
+                    {{ site.cp }} {{ site.localite }}
+                </dd>
+                <dt class="col-sm-3">Service gestionnaire</dt>
+                <dd class="col-sm-9">{{ site.get_service_display }}</dd>
+                <dt class="col-sm-3">BeST Address</dt>
+                <dd class="col-sm-9">
+                  {% if site.is_best %}
+                    <i class="fas fa-check text-success"></i>
+                  {% else %}
+                  <span data-toggle="tooltip" title="{{ site.infomsg }}" data-placement="bottom">
+                    <i class="far fa-times-circle text-red"></i>
+                  </span>
+                  {% endif %}
+                </dd>
+                <dt class="col-sm-3">Composition du site</dt>
+                <dd class="col-sm-9">{{ site.get_composition_display }}</dd>
+                {% if site.edific %}
+                <dt class="col-sm-3">n° EDIFIC</dt>
+                <dd class="col-sm-9">{{ site.edific }}</dd>
+                {% endif %}
+                <dt class="col-sm-3">Mots-clés</dt>
+                {% if site.tags.all %}
+                <dd class="col-sm-9">
+                  {% for t in site.tags.all %}
+                    <span class="badge badge-green">{{ t }}</span>
+                  {% endfor %}
+                </dd>
+                <dt class="col-sm-3">Mots-clés partagés</dt>
+                <dd class="col-sm-9">
+                  {%for item in related_tags|slice:":5" %}
+                    <a href="{{ item.get_absolute_url }}">
+                      {% if not item.label %}{{ item }}{% else %}{{ item.label }}{% endif %}
+                    </a><br>
+                  {% endfor %}
+                </dd>
+                {% else %}
+                <dd class="col-sm-9">
+                  <span data-toggle="tooltip" title="Ajouter" data-placement="bottom">
+                    <a href="{% url 'inventaire:site-modif' slug=site.slug %}" class="text-vert"><i class="fas fa-plus-circle"></i></a>
+                  </span>
+                </dd>
+                {% endif %}
+              </dl>
+            </div>
+          </div>          
+        </div>
+            <!-- Onglet parcelles -->
+            <div class="tab-pane fade" id="terrain" role="tabpanel" aria-labelledby="terrain-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if site.parcelles.all %}
+                  <table class="table table-sm" id="table" data-toggle="table">
+                    <thead>
+                      <tr>
+                        <th data-field="capakey" data-sortable="true">Identifiant CaPaKey</th>
+                        <th data-field="nature" data-sortable="true">Nature</th>
+                        <th data-field="patris" data-sortable="true">Patris (m²)</th>
+                        <th data-field="droit" data-sortable="true">Droit de propriété</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <div class="row">
+                        <div class="col">
+                          {% for p in object.parcelles.all %}
+                            <tr>
+                              <td><a href="{% url 'inventaire:parcelle-details' slug=p.slug %}" type="button">{{ p.capakey }}</a></td>
+                              <td>{{ p.nature }}</td>
+                              <td >{{ p.patris|floatformat:"0" }}</td>
+                              <td >{{ p.get_droit_display }}</td>
+                            </tr>
+                            <!-- Modal -->
+                            <div class="modal fade" id="capa{{ p.id }}" tabindex="-1" aria-labelledby="capakey_detLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="text-bleu-fonce text-center">Matrice {{ p.capakey }}</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <dl class="row m-2">
+                                      <dt class="col-sm-7">Division cadastrale:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.division }}
+                                      </dd>
+                                      <dt class="col-sm-7">Section:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.section }}
+                                      </dd>
+                                      <dt class="col-sm-7">Radical:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.radical }}
+                                      </dd>
+                                      <dt class="col-sm-7">Bis:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.bis }}
+                                      </dd>
+                                      <dt class="col-sm-7">Exposant:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.exposant }}
+                                      </dd>
+                                      <dt class="col-sm-7">Puissance:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.puissance }}
+                                      </dd>
+                                    </dl>
+                                    <hr>
+                                    <dl class="row m-2">
+                                      <dt class="col-sm-7">Contenance Patris (m²):</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.patris }}
+                                      </dd>
+                                      <dt class="col-sm-7">Nature cadastrale:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.nature }}
+                                      </dd>
+                                      <dt class="col-sm-7">Situation patrimoniale:</dt>
+                                      <dd class="col-sm-5">
+                                        {{ p.get_droit_display }}
+                                      </dd>
+                                    </dl>
+                                    <hr>
+                                    <dl class="row m-2">
+                                      <dt class="col-sm-7">Nombre de bâtiments</dt>
+                                      <dd class="col-sm-5">{{ p.constructions.all|length }}</dd>
+                                    </dl>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <a href="{% url 'inventaire:parcelle-modif' slug=p.slug %}" type="button" class="btn btn-success">
+                                      Modifier
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </tbody>
+                  </table>
+                  {% endif %}
+                  <div class="text-center m-2">
+                    <a class="btn btn-primary btn-sm m-2" href="{% url 'inventaire:nouvelle-parcelle' %}" role="button">Ajouter un terrain</a>
+                    <a class="btn btn-warning btn-sm m-2 text-black" href="{% url 'inventaire:parcelle-list' %}" role="button">Liste des terrains</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Onglet constructions -->
+            <div class="tab-pane fade" id="cstr" role="tabpanel" aria-labelledby="cstr-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if site.parcelles.all %}
+                  <table class="table table-sm" id="table" data-toggle="table">
+                    <thead>
+                      <tr>
+                        <th data-field="name" data-sortable="true">Nom</th>
+                        <th data-field="desc" data-sortable="true">Description</th>
+                        <th data-field="shape_area" data-sortable="true">Shape Area</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <div class="row">
+                        <div class="col">
+                          {% for terrain in site.parcelles.all %}
+                            {% if terrain.constructions.all %}
+                              {% for bat in terrain.constructions.all %}
+                          <tr>
+                            <td>
+                              <a href="{{ bat.get_absolute_url }}">{% if bat.nom %}{{ bat.nom }}{% else %}{{ bat.id_regional }}{% endif %}</a>
+                            </td>
+                            <td>
+                              {% if bat.desc %}{{ bat.desc }}{% endif %}
+                            </td>
+                            <td>
+                              {% if bat.shape_area %}{{ bat.shape_area|floatformat:"1" }} m²{% endif %}
+                            </td>
+                          </tr>
+                              {% endfor %}
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </tbody>
+                  </table>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:nouveau-batiment' %}" role="button">Ajouter un batiment</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Onglet Memo -->
+            <div class="tab-pane fade" id="memo" role="tabpanel" aria-labelledby="memo-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if site.notes.all %}
+                  <ul>
+                    {% for rem in site.notes.all %}
+                      <li>
+                        {{ rem.contenu|safe|truncatechars:50}}<a href="{{ rem.get_absolute_url }}">Lire plus</a>
+                      </li>
+                    {% endfor%}
+                  </ul>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:nouveau-memo' %}" role="button">Ajouter un memo</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Onglet Photos -->
+            <div class="tab-pane fade" id="foto" role="tabpanel" aria-labelledby="foto-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if images %}
+                  <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+                    <div class="carousel-inner">
+                      {% for docu in images %}
+                      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ docu.doc.url }}" class="d-block mx-auto">
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:nouveau-doc' %}" role="button">Ajouter une photo</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Onglet Documents -->
+            <div class="tab-pane fade" id="doc" role="tabpanel" aria-labelledby="doc-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if documents %}
+                  <ul>
+                    {% for doc in documents %}
+                      <li><a href="{{ doc.doc.url }}" target="_blank">{{ doc }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:nouveau-doc' %}" role="button">Ajouter un document</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Onglet Agents -->
+            <div class="tab-pane fade" id="agent" role="tabpanel" aria-labelledby="agent-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if agents %}
+                    <dl class="row">
+                      {% for p in agents %}
+                      <dt class=col-sm-5>{{ p.fonction }}</dt>
+                      <dd class=col-sm-7><a href="{{ p.agent.get_absolute_url }}">{{ p.agent }}</a></dd>
+                      {% endfor %}
+                    </dl>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:nouvel-agent' %}" role="button">Ajouter un agent</a>
+                    <a class="btn btn-info text-black m-2 btn-sm" href="{% url 'inventaire:nouvelle-affectationagent' %}" role="button">Affecter un agent</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- Onglet Occupants -->
+            <div class="tab-pane fade" id="occ" role="tabpanel" aria-labelledby="occ-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if occupants %}
+                    <ul class="list-unstyled">
+                      {% for o in occupants %}
+                      <li><a href="{{ o.orga.get_absolute_url }}">{{ o.nom }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:nouvelle-organisation' %}" role="button">Ajouter une organisation</a>
+                    <a class="btn btn-info text-black m-2 btn-sm" href="{% url 'inventaire:nouvelle-occupation' %}" role="button">Ajouter un occupant</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Onglet Energies -->
+            <div class="tab-pane fade" id="nrj" role="tabpanel" aria-labelledby="nrj-tab">
+              <div class="row m-2">
+                <div class="col">
+                  {% if energies %}
+
+                  <ul>
+                    {% regroup consos by compteur__fluide as consos_par_fluide %}
+                    {% for conso in consos_par_fluide %}
+                      <h1>{% if conso.grouper == "G" %}<i class="fas fa-burn fa-lg text-blue"></i>{% else %}<i class="fas fa-bolt fa-lg text-yellow"></i>{% endif %}
+                      </h1>
+                          {% regroup conso.list by compteur__slug as conso_par_ean %}
+                          <ul>
+                          {% for ean in conso_par_ean %}
+                            <h3><a href="{% url 'inventaire:co-details' slug=ean.grouper %}">{{ ean.grouper }}</a></h3>
+                            {% for rlv in ean.list %}
+                            <li><strong>{{ rlv.debut_periode__year }}</strong> : {{ rlv.c_annuel|intcomma }} kWh</li>
+                            {% endfor %}
+                            
+                            
+                          {% endfor %}
+                          </ul>  
+                    {% endfor %}
+                  </ul>
+
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="btn btn-primary m-2 btn-sm" href="{% url 'inventaire:co-list' %}" role="button"><strong>EXISTANT</strong></a>
+                    <a class="btn btn-info text-black m-2 btn-sm" href="{% url 'inventaire:nouveau-co' %}" role="button"><strong>NOUVEAU</strong></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block jsSupp %}
+{% load l10n %}
+<script type="text/javascript">
+  var map = L.map('map').setView([{{site.latitude|unlocalize}}, {{site.longitude|unlocalize}}], 18);
+
+  var osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 22,
+  }).addTo(map);
+
+  var info_best = L.tileLayer.wms('http://wms.ngi.be/inspire/best/service?', {
+    layers:"itgi_best_complet_view_simple_names",
+    format:"image/png",
+    maxZoom: 22,
+  });
+
+  var info_minfin = L.tileLayer.wms('http://ccff02.minfin.fgov.be/geoservices/arcgis/services/WMS/Cadastral_Layers/MapServer/WMSServer',{
+    layers: 'Cadastral building,Cadastral Parcel,Regional building',
+    format:'image/png',
+    maxZoom: 22,
+  });
+
+  var baseMaps = {
+    "Osm":osm,
+    "BeST":info_best,
+    "Cadastre":info_minfin,
+  };
+
+  L.marker([{{ site.latitude|unlocalize }}, {{ site.longitude|unlocalize }}]).addTo(map).bindPopup('{{ site }}');
+  L.control.layers(baseMaps,null,{
+    position:'topleft'
+  }).addTo(map);
+  map.addControl(new L.Control.Fullscreen());
+  L.control.scale().addTo(map);
+</script>
+{% endblock %}

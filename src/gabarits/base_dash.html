@@ -1,0 +1,28 @@
+{% include 'easter_egg.txt' %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        {% include 'meta.html' %}
+        <title>{% block titre_page %}{% endblock %}</title>
+        {% include 'style_dash.html' %}
+        {% block cssPlus %}{% endblock %}
+        {{ form.media }}
+    </head>
+    <body class="nav-fixed">
+        {% include 'navbar_dash.html' %}
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                {% include 'sidebar.html' %}
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    {% block entete %}{% endblock %}
+                    <!-- Main page content-->
+                    {% block contenu %}{% endblock %}
+                </main>
+            </div>
+        </div>
+        {% include 'js_dash.html' %}
+        {% block jsSupp %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,57 @@
+{% extends 'base_dash.html' %}
+{% block titre_page %}Annuaire{% endblock %}
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="far fa-address-book"></i></div>
+                        Annuaire
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Agents
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled ml-4">
+                    {% for agent in agents %}
+                        <li><a href="{{ agent.get_absolute_url }}">{{ agent }}</a></li>
+                    {% endfor %}                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Organisations
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled ml-4">
+                    {% for org in orgs %}
+                        <li><a href="{{ oorg.get_absolute_url }}">{{ org }}</a></li>
+                    {% endfor %}                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block jsSupp %}
+
+{% endblock %}

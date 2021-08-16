@@ -1,0 +1,38 @@
+{% extends 'base_dash_listing.html' %}
+{% load humanize %}
+
+{% block titre_page %}Liste des compteurs officiels{% endblock %}
+
+{% block header_list_titre %}{{ total }} compteurs officiels répertoriés{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:co-list' %}{% endblock %}
+
+{% block entete_tbl %}
+  <thead>
+    <tr>
+      <th data-sortable="true">Fluide</th>
+      <th data-sortable="true">EAN</th>
+      <th data-sortable="true">GRD</th>
+      <th data-sortable="true">Relevé</th>
+      <th data-sortable="true">Code Postal</th>
+      <th data-sortable="true">Localité</th>
+      <th data-sortable="true">Site</th>
+    </tr>
+  </thead>
+{% endblock %}
+
+{% block corps_tbl %}
+  <tbody>
+    {% for pdf in object_list %}
+    <tr>
+      <td>{{ pdf.get_fluide_display }}</td>
+      <td><a href="{{ pdf.get_absolute_url }}">{{ pdf.identifiant }}</a></td>
+      <td>{{ pdf.get_grd_display }}</td>
+      <td>{{ pdf.releve }}</td>
+      <td>{{ pdf.cp }}</td>
+      <td>{{ pdf.localite }}</td>
+      <td>{% if pdf.livraison %}<a href="{{ pdf.livraison.get_absolute_url }}">{{ pdf.livraison }}</a>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %} 

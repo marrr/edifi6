@@ -1,0 +1,32 @@
+{% extends 'base_dash_listing.html' %}
+{% load humanize %}
+
+{% block titre_page %}Liste des bâtiments{% endblock %}
+
+{% block header_list_titre %}{{ total }} bâtiments répertoriés{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:nouveau-batiment' %}{% endblock %}
+
+{% block entete_tbl %}
+  <thead>
+    <tr>
+      <th data-field="site" data-sortable="true">Site</th>
+      <th data-field="nom" data-sortable="true">Nom usuel</th>
+      <th data-field="idr" data-sortable="true">ID regional</th>
+    </tr>
+  </thead>
+{% endblock %}
+
+{% block corps_tbl %}
+  <tbody>
+
+        {% for bat in object_list %}
+          <tr>
+            <td><a href="{% url 'inventaire:site-details' slug=bat.parcel.site.slug %}">{{ bat.parcel.site }}</a></td>
+            <td>{% if bat.nom %}{{ bat.nom }}{% else %}<a href="{% url 'inventaire:batiment-modif' slug=bat.slug %}">Ajouter un nom usuel</a>{% endif %}</td>
+            <td><a href="{% url 'inventaire:batiment-details' slug=bat.slug %}">{{ bat.id_regional }}</a></td>
+          </tr>
+        {% endfor %}
+
+  </tbody>
+{% endblock %} 

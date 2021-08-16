@@ -1,0 +1,50 @@
+{% extends 'base_dash_adding.html' %}
+{% load static %}
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Mise à jour
+{% else %}
+	Ajout
+{% endif %} d'un relevé de consommation énergétique
+{% endblock %}
+
+{% block cssPlus %}
+<!-- Datepicker -->
+<link href="//cdn.rawgit.com/monim67/django-bootstrap-datepicker-plus/master/bootstrap_datepicker_plus/static/bootstrap_datepicker_plus/css/datepicker-widget.css" type="text/css" media="all" rel="stylesheet" />
+<link href="{% static 'css/datepicker-widget.css' %}" type="text/css" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:rlv-list' %}{% endblock %}
+
+{% block form_itself %}
+{{ form.media }}
+{% load crispy_forms_tags %}
+  <div class="card-body">
+    <div class="card-text">
+      <div class="row">
+        <div class="col">
+          {{ form.compteur|as_crispy_field }}
+          <small class="text-muted">
+            Référence absente de la liste ? <a href="{% url 'inventaire:nouveau-co' %}">Créez la</a>
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="datetimepicker">
+          {{ form.debut_periode|as_crispy_field }}
+        </div>
+        <div class="col" id="datetimepicker">
+          {{ form.fin_periode|as_crispy_field }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ form.quantite|as_crispy_field }}
+        </div>
+        <div class="col">
+          {{ form.tarif|as_crispy_field }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

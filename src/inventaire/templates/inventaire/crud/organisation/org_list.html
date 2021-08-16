@@ -1,0 +1,32 @@
+{% extends 'base_dash_listing.html' %}
+{% load humanize %}
+
+{% block titre_page %}Liste des organisations{% endblock %}
+
+{% block header_list_titre %}{{ object_list|length }} organisations répertoriées{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:nouvelle-organisation' %}{% endblock %}
+
+{% block entete_tbl %}
+  <thead>
+    <tr>
+      <th data-field="ope" data-sortable="true"></th>
+      <th data-field="nom" data-sortable="true">Nom</th>
+      <th data-field="bce" data-sortable="true">N° BCE</th>
+    </tr>
+  </thead>
+{% endblock %}
+
+{% block corps_tbl %}
+  <tbody>
+    {% for p in object_list %}
+      <tr>
+        <td class="text-center">
+          <a href="{{ p.get_absolute_url }}" ><i class="far fa-eye text-info" data-toggle="tooltip" title="Voir le détail" data-placement="bottom"></i></a>
+        </td>
+        <td>{{ p.nom }}</td>
+        <td>{{ p.bce }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %} 

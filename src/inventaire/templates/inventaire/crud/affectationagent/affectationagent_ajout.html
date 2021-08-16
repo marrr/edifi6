@@ -1,0 +1,34 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Modification de l'affectation d'un agent
+{% else %}
+	Affectation d'un agent à un site
+{% endif %} d'un batiment
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:affectationagent-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+	<div class="card-text">
+	  {{ form|crispy }}
+	  <p>
+	    <em>
+	      <a href="{% url 'inventaire:nouvel-agent' %}">
+	        Si un Agent de la DGI n'est pas répertorié, vous pouvez le créer en cliquant ici.
+	      </a>
+	    </em>
+	  </p>
+	  <p>
+	    <em>
+	      <a href="{% url 'inventaire:nouveau-site' %}">
+	        Si un Site n'est pas répertorié, vous pouvez le créer en cliquant ici.
+	      </a>
+	    </em>
+	  </p>
+	</div>
+</div>
+{% endblock %}

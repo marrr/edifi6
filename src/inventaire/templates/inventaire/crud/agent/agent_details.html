@@ -1,0 +1,65 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-info"></i></div>
+                        {{ object }}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                	<a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:agent-modif' slug=object.slug %}">Modifier</a>
+                    <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:agent-list' %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container">
+    <div class="row">
+        <div class="col-xxl-4 col-xl-6 mb-4">
+            <div class="card card-header-actions">
+                <div class="card-header">Coordonnées</div>
+                <div class="card-body">
+              {% if object.email %}<i class="fas fa-at"></i> <a href="mailto:{{ object.email }}">{{ object.email }}</a><br>{% endif %}
+              {% if object.homepage %}<i class="fas fa-globe"></i> <a href="{{ object.homepage }}">{{ object.homepage }}</a><br>{% endif %}
+              {% if object.phone %}<i class="fas fa-phone"></i> <a href="tel:{{ object.phone }}">{{ object.phone }}</a><br>{% endif %}
+              {% if object.gsm %}<i class="fas fa-fax"></i> <a href="tel:{{ object.gsm }}">{{ object.gsm }}</a><br>{% endif %}                  
+        </div>
+          </div>
+        </div>
+        <div class="col-xxl-8 col-xl-6 mb-4">
+           <div class="card card-header-actions">
+                <div class="card-header">Sites & Rôles</div>
+            <div class="card-body">
+              {% if sites %}
+              <ul class="list-unstyled">
+                {% regroup sites|dictsort:"fonction" by fonction as sites_by_fonction %}
+                {% for site in sites_by_fonction %}
+                  <li><h5>{{ site.grouper }}</h5></li>
+                  <ul>
+                    {% for s in site.list %}
+                      <li><a href="{{ s.site.get_absolute_url }}">{{ s.site }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p><a href="{% url 'inventaire:nouvelle-affectationagent' %}">Attribuer un site à cet agent</a></p>
+              {% endif %}
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

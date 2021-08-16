@@ -1,0 +1,66 @@
+{% load static %}
+<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-dark bg-dark" id="sidenavAccordion">
+    <!-- Navbar Brand-->
+    <!-- * * Tip * * You can use text or an image for your navbar brand.-->
+    <!-- * * * * * * When using an image, we recommend the SVG format.-->
+    <!-- * * * * * * Dimensions: Maximum height: 32px, maximum width: 240px-->
+    <a class="navbar-brand" href="{% url 'page:accueil' %}">e10fi6 <span class="badge badge-orange text-white ml-auto">beta</span></a>
+    <!-- Sidenav Toggle Button-->
+    <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"><i class="fas fa-bars text-white"></i></button>
+    <!-- Navbar Search Input-->
+    <!-- * * Note: * * Visible only on and above the md breakpoint-->
+
+    <form class="form-inline mr-auto d-none d-md-block mr-3" method="GET" action="{% url 'inventaire:recherche' %}">
+        <div class="input-group input-group-joined input-group-solid">
+            <input id='q' name="q" class="form-control mr-sm-2" type="search" placeholder="Que cherchez-vous?" aria-label="Search" value="{{ request.GET.q }}"/>
+            <div class="input-group-append">
+            <div class="input-group-text"><i class="fas fa-search"></i></div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Navbar Items-->
+    <ul class="navbar-nav align-items-center ml-auto">
+        <li class="nav-item"><a class="nav-link btn btn-red text-white d-none d-lg-block" href="mailto:marouan@protonmail.com?subject=Feedback Utilisateur" data-toggle="tooltip" data-placement="top" title="Une question ? Un commentaire ? Une correction ? Un besoin ? Exprimez-vous."><i class="far fa-comment-dots"></i> Feedback</a></li>
+        <li class="nav-item"><a class="nav-link text-white d-none d-md-block" href="{% url 'journal:index' %}">Journal </a></li>
+        <li class="nav-item"><a class="nav-link text-white d-none d-md-block" href="{% url 'glossaire:index' %}">Glossaire </a></li>
+        <!-- User Dropdown-->
+        <li class="nav-item dropdown no-caret mr-3 mr-lg-0 dropdown-user">
+            <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{{ user.profile.image.url }}" /></a>
+            <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
+                <h6 class="dropdown-header d-flex align-items-center">
+                    <img class="dropdown-user-img" src="{{ user.profile.image.url }}" />
+                    <div class="dropdown-user-details">
+                        <div class="dropdown-user-details-name">{{ user.username }}</div>
+                        <div class="dropdown-user-details-email">{{ user.email }}</div>
+                    </div>
+                </h6>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'profile' %}">
+                    <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
+                    Mon compte
+                </a>
+                <a class="dropdown-item" href="{% url 'logout' %}">
+                    <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
+                    Se déconnecter
+                </a>
+            </div>
+        </li>
+        <!-- Navbar Search Dropdown-->
+        <!-- * * Note: * * Visible only below the md breakpoint-->
+        <li class="nav-item dropdown no-caret mr-3 d-md-none">
+            <a class="btn btn-icon btn-dark dropdown-toggle" id="searchDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-search text-white"></i></a>
+            <!-- Dropdown - Search-->
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--fade-in-up" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100" method="GET" action="{% url 'inventaire:recherche' %}">
+                    <div class="input-group input-group-joined input-group-solid">
+                        <input id='q' name="q" class="form-control" type="text" placeholder="Que cherchez-vous ?" aria-label="Search" aria-describedby="basic-addon2" value="{{ request.GET.q }}"/>
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fas fa-search text-white"></i></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li>
+    </ul>
+</nav>

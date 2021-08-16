@@ -23,6 +23,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 # Application definition
 
 INSTALLED_APPS = [
+    'inventaire',
     'journal',
     'glossaire',
     'utilisateur',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'tinymce',
     'taggit',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

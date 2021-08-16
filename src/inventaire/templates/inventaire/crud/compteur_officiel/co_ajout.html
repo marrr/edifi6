@@ -1,0 +1,48 @@
+{% extends 'base_dash_adding.html' %}
+
+{% block header_ajout_titre %}
+{% if '/modifications/' in request.path %}
+	Mise à jour
+{% else %}
+	Ajout
+{% endif %} d'un compteur officiel
+{% endblock %}
+
+{% block url-btn-retour %}{% url 'inventaire:co-list' %}{% endblock %}
+
+{% block form_itself %}
+{% load crispy_forms_tags %}
+<div class="card-body">
+  <div class="card-text">
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        {{ form.fluide|as_crispy_field }}
+      </div>
+      <div class="col-lg-4 col-md-12">
+        {{ form.releve|as_crispy_field }}
+      </div>
+      <div class="col-lg-4 col-md-12">
+        {{ form.tarif|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        {{ form.debit|as_crispy_field }}
+      </div>
+      <div class="col-lg-6 col-md-12">
+        {{ form.grd|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ form.identifiant|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ form.livraison|as_crispy_field }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

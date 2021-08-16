@@ -1,0 +1,58 @@
+{% extends 'base_dash_listing.html' %}
+
+{% block titre_page %}Liste de sites{% endblock %}
+
+{% block header_list_titre %}{{ total }} Sites répertoriés{% endblock %}
+
+{% block url-btn-ajouter %}{% url 'inventaire:nouveau-site' %}{% endblock %}
+
+{% block entete_tbl %}
+<thead>
+	<tr>
+	  <th data-field="nom" data-sortable="true" data-switchable="false">Nom usuel</th>
+	  <th data-field="rue" data-sortable="true" data-switchable="false">Voirie</th>
+	  <th data-field="cp" data-sortable="true" data-switchable="false">Code Postal</th>
+	  <th data-field="com" data-sortable="true" data-switchable="false">Localite</th>
+	  <th data-field="edific" data-sortable="true" data-switchable="true">Edific</th>
+	  <th data-field="tag" data-sortable="true" data-switchable="true">Mots-Clés</th>
+	  <th data-field="ope" data-sortable="false" data-switchable="false">Actions</th>
+	</tr>
+</thead>
+{% endblock %}
+
+{% block corps_tbl %}
+<tbody>
+{% for site in object_list %}
+  <tr>
+    <td>
+      {% if site.nom %}
+        {{ site.nom }}
+      {% else %}
+        <a href="{% url 'inventaire:site-modif' slug=site.slug %}">Nommer le site</a>
+      {% endif %}
+    </td>
+    <td>
+      {{ site.voirie }}, {{ site.numero }}
+    </td>
+    <td>{{ site.cp }}</td>
+    <td>{{ site.localite }}</td>
+    <td>
+    {% if site.edific %}
+      {{ site.edific }}
+    {% endif %}
+    </td>
+    <td class="text-center">
+      {% if site.tags.all %}
+        {% for tag in site.tags.all %} <span class="badge badge-primary">{{ tag }}</span>{% endfor %}
+      {% else %}
+        <i class="far fa-times-circle text-danger"></i>
+      {% endif %}
+    </td>
+    <td class="text-center">
+	          <a href="{{ site.get_absolute_url }}"><i class="far fa-eye text-yellow mr-2" data-toggle="tooltip" title="Voir le détail" data-placement="bottom"></i></a>       			
+	          <a href="{% url 'inventaire:site-modif' slug=site.slug %}"><i class="far fa-edit text-green" data-toggle="tooltip" title="Modifier" data-placement="bottom"></i></a>        			
+    </td>
+  </tr>
+{% endfor %}
+</tbody>
+{% endblock %} 

@@ -1,0 +1,95 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titre_page %}{{ object }}{% endblock %}
+
+{% block entete %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-gradient-primary-to-secondary mb-4">
+    <div class="container-fluid">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title text-white">
+                        <div class="page-header-icon text-white"><i class="fas fa-info"></i></div>
+                        {{ object }}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                	<a class="btn btn-sm btn-light text-primary mr-2" href="{% url 'inventaire:co-modif' slug=object.slug %}">Modifier</a>
+                    <a class="btn btn-sm btn-light text-primary mr-2" href="#">Ajouter un relevé</a>
+                    <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:co-list' %}">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block contenu %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                  {% if object.livraison %}
+                  Site alimenté : {{ object.livraison }}
+                  {% else %}
+                  Compteur officiel non lié à un site
+                  {% endif %}
+                </div>
+                <div class="card-body">
+                  <dl class="row align-items-center">
+                    <dt class="col-sm-3">Fluide</dt>
+                    <dd class="col-sm-9">{{ object.get_fluide_display }}</dd>
+
+                    <dt class="col-sm-3">EAN</dt>
+                    <dd class="col-sm-9">{{ object.identifiant }}</dd>
+
+                    <dt class="col-sm-3">Débit</dt>
+                    <dd class="col-sm-9">{{ object.get_debit_display }}</dd>
+
+                    <dt class="col-sm-3">Tarif</dt>
+                    <dd class="col-sm-9">{{ object.get_tarif_display }}</dd>
+
+                    <dt class="col-sm-3">Relevé</dt>
+                    <dd class="col-sm-9">{{ object.releve }}</dd>
+
+                    <dt class="col-sm-3">GRD</dt>
+                    <dd class="col-sm-9">{{ object.get_grd_display }}</dd>
+
+                    <dt class="col-sm-3">Site</dt>
+                    <dd class="col-sm-9">
+                      {% if object.livraison %}
+                      <a href="{{ object.livraison.get_absolute_url }}">{{ object.livraison }}</a>
+                      {% else %}
+                      <a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:co-modif' slug=object.slug %}">Lier ce compteur à un site</a>
+                      {% endif %}</dd>
+                    </dd>
+                  </dl>         
+                </div>
+            </div>            
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Relevés de consommation
+                </div>
+                <div class="card-body">
+                    <dl class="row align-items-center">
+                        <dt class="col-sm-7">Nombre de relevés</dt>
+                        <dd class="col-sm-5">{{ nbr_rlv }}</dd>
+                        <dt class="col-sm-7">Relevé le plus ancien</dt>
+                        <dd class="col-sm-5">{{ stats.debut_periode__min|date }}</dd>
+                        <dt class="col-sm-7">Relevé le plus récent</dt>
+                        <dd class="col-sm-5">{{ stats.fin_periode__max|date }}</dd>
+                        <dt class="col-sm-7">Quantité totale relevée</dt>
+                        <dd class="col-sm-5">{{ stats.quantite__sum|intcomma }} kWh</dd>
+                    </dl>
+                    <div class="text-center"><a class="btn btn-sm btn-light text-primary" href="{% url 'inventaire:nouveau-rlv' %}">Ajouter un ou des relevés à ce compteur</a></div>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+</div>
+{% endblock %}
