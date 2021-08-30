@@ -5,6 +5,7 @@
             <ul class="navbar-nav ml-auto mr-lg-5">
                 <li class="nav-item"><a class="nav-link" href="{% url 'journal:index' %}">Journal</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'glossaire:index' %}">Glossaire</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'page:accueil' %}#contact">Contact</a></li>
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'inventaire:index' %}">Application</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Mon profil</a></li>
